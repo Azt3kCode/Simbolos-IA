@@ -1,0 +1,23 @@
+.mosaico {
+    display: grid;
+    grid-template-columns: repeat(3, 120px);
+    grid-template-rows: repeat(3, 120px);
+    grid-gap: 5px;
+    width: 370px;
+    margin: 40px auto;
+}
+
+.cuadro {
+    background-color: #eee;
+    text-align: center;
+    transition: all 0.3s ease;
+    border-bottom: 5px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#msg {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #0099ff;
+}

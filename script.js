@@ -1,4 +1,4 @@
-const model = tf.sequential();
+model = tf.sequential();
 
 model.add(
     tf.layers.dense({
@@ -12,7 +12,6 @@ model.compile({
     optimizer: 'sgd',
     metrics: ['accuracy']
 });
-
 
 const xs = tf.tensor2d([
     [0, 1, 0,
@@ -30,17 +29,34 @@ const xs = tf.tensor2d([
 ], [4, 9]);
 const ys = tf.tensor2d([1, 2, 3, 4], [4, 1]);
 
+entrenar();
+
 async function entrenar() {
     const carga = document.getElementById('carga');
     const mensaje = document.getElementById('mensaje');
     const bar = document.getElementById('bar');
     
     await model.fit(xs, ys, {
-        epochs: 500,
+        epochs: 1000,
         callbacks: {
             onEpochEnd: async (epoch, logs) => {
-                bar.style.transform = `translateX(${epoch / 5 - 100}%)`;
-                mensaje.innerHTML = `Entrenando IA <span>${Math.round(epoch / 5)}%</span>`;
+                bar.style.transform = `translateX(${epoch / 10 - 100}%)`;
+                mensaje.innerHTML = `Entrenando IA <span>${Math.round(epoch / 10)}%</span>`;
+                /*console.log(epoch, 
+                    model.predict(tf.tensor2d([
+                        [0, 1, 0,
+                         1, 1, 1,
+                         0, 1, 0],
+                        [0, 0, 0,
+                         1, 1, 1,
+                         0, 0, 0],
+                        [1, 0, 1,
+                         0, 1, 0,
+                         1, 0, 1],
+                        [0, 0, 1,
+                         0, 1, 0,
+                         1, 0, 0]
+                    ], [4, 9])).dataSync());*/
             }
         }
     });
@@ -58,14 +74,13 @@ async function entrenar() {
     });
 }
 
-entrenar();
+let array = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-function predecir() {
-    const dato = parseInt(document.getElementById('dato').value);
-    const mensaje = document.getElementById('mensaje');
-    const output = model.predict(tf.tensor2d([dato], [1, 1]));
-    console.log(Math.floor(output.dataSync()[0]));
-    switch (output.dataSync()[0]) {
+async function predecir() {
+    const mensaje = document.getElementById('msg');
+    const output = await model.predict(tf.tensor2d(array, [1, 9]));
+    // redondear output al numero enteros mas cercano
+    switch (Math.round(await output.dataSync()[0])) {
         case 1:
             mensaje.innerHTML = 'Es una suma';
             break;
@@ -78,5 +93,25 @@ function predecir() {
         case 4:
             mensaje.innerHTML = 'Es una división';
             break;
+        default:
+            mensaje.innerHTML = 'No se pudo predecir';
+            break;
     }
+    console.log(mensaje);
+}
+
+async function cambiar(id) {
+    const el = document.getElementById(id);
+    if (array[id - 1] === 0) {
+        el.style.background = '#0099ff';
+        el.style.borderBottom = '5px solid #0088ee';
+        el.style.transform = 'scale(1.1)';
+        array [id - 1] = 1;
+    } else {
+        el.style.background = '#eee';
+        el.style.borderBottom = '5px solid #ddd';
+        el.style.transform = 'scale(1)';
+        array [id - 1] = 0;
+    }
+    await predecir();
 }
