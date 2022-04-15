@@ -1,0 +1,71 @@
+.pagina_carga {
+    position: fixed;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 120%;
+    transition: all 0.5s ease;
+    background: linear-gradient(to right, #00c6ff, #0072ff);
+}
+
+.cerebro {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    fill: #fff;
+    filter: drop-shadow(5px 5px 0px rgba(0,0,0,0.1));
+}
+
+.pesas {
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) translate(100px, -0px);
+    fill: #555;
+    z-index: 1;
+    filter: drop-shadow(5px 5px 0px rgba(0,0,0,0.1));
+    animation: 3s levantar ease infinite;
+}
+
+.mensaje {
+    color: #fff;
+    font-size: 1.5rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) translate(0, 150px);
+}
+
+.progress {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) translate(0, 200px);
+    width: 300px;
+    height: 30px;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.bar {
+    background-color: #fff;
+    width: 100%;
+    height: 100%;
+    transform: translateX(-100%);
+}
+
+span {
+    opacity: 0.5;
+}
+
+@keyframes levantar {
+    50% {
+        transform: translate(-50%, -50%) translate(100px, -40px) rotate(-10deg);
+    }
+}
